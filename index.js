@@ -47,6 +47,12 @@ const maintenanceController = new MaintenanceController(maintenance);
 const MessageController = require("./controllers/MessageController.js");
 const messageController = new MessageController(message);
 
+const PaymentController = require("./controllers/PaymentController.js");
+const paymentController = new PaymentController(payment);
+
+const PropertyAssetController = require("./controllers/PropertyAssetController.js");
+const propertyAssetController = new PropertyAssetController(property_assets);
+
 // import routers
 
 const GuestRouter = require("./routers/GuestRouter.js");
@@ -73,6 +79,15 @@ const maintenanceRouter = new MaintenanceRouter(maintenanceController, express);
 const MessageRouter = require("./routers/MessageRouter.js");
 const messageRouter = new MessageRouter(messageController, express);
 
+const PaymentRouter = require("./routers/PaymentRouter.js");
+const paymentRouter = new PaymentRouter(paymentController, express);
+
+const PropertyAssetRouter = require("./routers/PropertyAssetRouter.js");
+const propertyAssetRouter = new PropertyAssetRouter(
+  propertyAssetController,
+  express
+);
+
 // Setting up middleware
 app.use(express.json());
 app.use(cors());
@@ -86,6 +101,8 @@ app.use("/bookings", bookingRouter.route());
 app.use("/favorites", favoriteRouter.route());
 app.use("/maintenances", maintenanceRouter.route());
 app.use("/messages", messageRouter.route());
+app.use("/payments", paymentRouter.route());
+app.use("/propertyassets", propertyAssetRouter.route());
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
