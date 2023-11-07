@@ -27,10 +27,27 @@ const {
 const GuestController = require("./controllers/GuestController.js");
 const guestController = new GuestController(guest);
 
+const PropertyManagerController = require("./controllers/PropertyManagerController.js");
+const propertyManagerController = new PropertyManagerController(
+  propertymanager
+);
+
+const PropertyController = require("./controllers/PropertyController.js");
+const propertyController = new PropertyController(property);
+
 // import routers
 
 const GuestRouter = require("./routers/GuestRouter.js");
 const guestRouter = new GuestRouter(guestController, express);
+
+const PropertyManagerRouter = require("./routers/PropertyManagerRouter.js");
+const propertyManagerRouter = new PropertyManagerRouter(
+  propertyManagerController,
+  express
+);
+
+const PropertyRouter = require("./routers/PropertyRouter.js");
+const propertyRouter = new PropertyRouter(propertyController, express);
 
 // Setting up middleware
 app.use(express.json());
@@ -39,6 +56,8 @@ app.use(express.urlencoded({ extended: false }));
 
 // Routing requests
 app.use("/guests", guestRouter.route());
+app.use("/propertymanagers", propertyManagerRouter.route());
+app.use("/properties", propertyRouter.route());
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
