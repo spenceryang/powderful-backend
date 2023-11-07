@@ -1,8 +1,8 @@
 const BaseController = require("./baseController");
 
-class BookingController extends BaseController {
-  constructor(bookingModel) {
-    super(bookingModel);
+class PropertyAssetController extends BaseController {
+  constructor(propertyAssetModel) {
+    super(propertyAssetModel);
   }
 
   async update(req, res) {
@@ -13,10 +13,10 @@ class BookingController extends BaseController {
       });
 
       if (updated) {
-        const updatedBooking = await this.model.findByPk(id);
-        res.status(200).json(updatedBooking);
+        const updatedPropertyAsset = await this.model.findByPk(id);
+        res.status(200).json(updatedPropertyAsset);
       } else {
-        res.status(404).json({ message: "Booking not found" });
+        res.status(404).json({ message: "PropertyAsset not found" });
       }
     } catch (error) {
       this.handleError(res, error);
@@ -33,7 +33,7 @@ class BookingController extends BaseController {
       if (deleted) {
         res.status(204).send(); // No content
       } else {
-        res.status(404).json({ message: "Booking not found" });
+        res.status(404).json({ message: "PropertyAsset not found" });
       }
     } catch (error) {
       this.handleError(res, error);
@@ -41,4 +41,4 @@ class BookingController extends BaseController {
   }
 }
 
-module.exports = BookingController;
+module.exports = PropertyAssetController;

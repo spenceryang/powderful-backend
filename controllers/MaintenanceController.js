@@ -1,8 +1,8 @@
 const BaseController = require("./baseController");
 
-class BookingController extends BaseController {
-  constructor(bookingModel) {
-    super(bookingModel);
+class MaintenanceController extends BaseController {
+  constructor(maintenanceModel) {
+    super(maintenanceModel);
   }
 
   async update(req, res) {
@@ -13,10 +13,10 @@ class BookingController extends BaseController {
       });
 
       if (updated) {
-        const updatedBooking = await this.model.findByPk(id);
-        res.status(200).json(updatedBooking);
+        const updatedMaintenance = await this.model.findByPk(id);
+        res.status(200).json(updatedMaintenance);
       } else {
-        res.status(404).json({ message: "Booking not found" });
+        res.status(404).json({ message: "Maintenance not found" });
       }
     } catch (error) {
       this.handleError(res, error);
@@ -33,7 +33,7 @@ class BookingController extends BaseController {
       if (deleted) {
         res.status(204).send(); // No content
       } else {
-        res.status(404).json({ message: "Booking not found" });
+        res.status(404).json({ message: "Maintenance not found" });
       }
     } catch (error) {
       this.handleError(res, error);
@@ -41,4 +41,4 @@ class BookingController extends BaseController {
   }
 }
 
-module.exports = BookingController;
+module.exports = MaintenanceController;
