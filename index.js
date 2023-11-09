@@ -103,6 +103,7 @@ app.use("/maintenances", maintenanceRouter.route());
 app.use("/messages", messageRouter.route());
 app.use("/payments", paymentRouter.route());
 app.use("/propertyassets", propertyAssetRouter.route());
+app.use("/propertyasset", propertyAssetRouter.route());
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
