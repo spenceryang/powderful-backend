@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const pg = require("pg");
+const jwtCheck = require("./middlewares/auth0Auth.js");
 
 // .env setup
 require("dotenv").config();
@@ -93,17 +94,29 @@ app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 
+// Custom middleware to apply jwtCheck only for certain conditions
+app.use((req, res, next) => {
+  // Apply jwtCheck for all routes except GET requests to /properties
+  if (req.path.startsWith("/properties") && req.method === "GET") {
+    // Skip jwtCheck for GET requests to /properties
+    return next();
+  } else {
+    // Use jwtCheck for all other requests
+    return jwtCheck(req, res, next);
+  }
+});
+
 // Routing requests
-app.use("/guests", guestRouter.route());
-app.use("/propertymanagers", propertyManagerRouter.route());
-app.use("/properties", propertyRouter.route());
-app.use("/bookings", bookingRouter.route());
-app.use("/favorites", favoriteRouter.route());
-app.use("/maintenances", maintenanceRouter.route());
-app.use("/messages", messageRouter.route());
-app.use("/payments", paymentRouter.route());
-app.use("/propertyassets", propertyAssetRouter.route());
-app.use("/propertyasset", propertyAssetRouter.route());
+app.use("/properties", propertyRouter.route()); // Entirely open to Get for all including ID
+
+app.use("/guests", guestRouter.route()); // Only open to authenticated guests for their own
+app.use("/propertymanagers", propertyManagerRouter.route()); // Only open to authenticated property managers for their own
+app.use("/bookings", bookingRouter.route()); // Only open to authenticated users / property managers for their own bookings
+app.use("/favorites", favoriteRouter.route()); // Only open to authenticated users for their own favorites
+app.use("/maintenances", maintenanceRouter.route()); // Only open to property managers for their own
+app.use("/messages", messageRouter.route()); // Only open to guests and property managers for their own
+app.use("/payments", paymentRouter.route()); // Only open to guests for their own payments
+app.use("/propertyassets", propertyAssetRouter.route()); // Open to all to get
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
