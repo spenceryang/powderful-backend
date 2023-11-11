@@ -57,7 +57,7 @@ const propertyAssetController = new PropertyAssetController(property_assets);
 // import routers
 
 const GuestRouter = require("./routers/GuestRouter.js");
-const guestRouter = new GuestRouter(guestController, express);
+const guestRouter = new GuestRouter(guestController, express, jwtCheck);
 
 const PropertyManagerRouter = require("./routers/PropertyManagerRouter.js");
 const propertyManagerRouter = new PropertyManagerRouter(
