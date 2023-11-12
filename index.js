@@ -33,7 +33,7 @@ const propertyManagerController = new PropertyManagerController(
 );
 
 const PropertyController = require("./controllers/PropertyController.js");
-const propertyController = new PropertyController(property);
+const propertyController = new PropertyController(property, property_assets);
 
 const BookingController = require("./controllers/BookingController.js");
 const bookingController = new BookingController(booking);
