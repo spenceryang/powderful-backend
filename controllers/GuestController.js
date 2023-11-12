@@ -9,10 +9,12 @@ class GuestController extends BaseController {
   async create(req, res) {
     try {
       // Extract user information from Auth0 token
-      const userId = req.user.sub; // Assumes user info is attached to req.user
-
-      const newGuestData = { ...req.body, userId };
-      const newGuest = await this.model.create(newGuestData);
+      const { email, name, user_sub } = req.body;
+      const newGuest = await this.model.create({
+        email,
+        name,
+        user_sub,
+      });
 
       res.status(201).json(newGuest);
     } catch (error) {
