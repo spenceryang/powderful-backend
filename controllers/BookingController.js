@@ -39,6 +39,23 @@ class BookingController extends BaseController {
       this.handleError(res, error);
     }
   }
+
+  async getByUserId(req, res) {
+    try {
+      const guestId = req.query.guest_id;
+      const userBookings = await this.model.findAll({
+        where: { guest_id: guestId },
+      });
+
+      if (userBookings && userBookings.length > 0) {
+        res.json(userBookings);
+      } else {
+        res.status(404).json({ message: "No bookings found for this user" });
+      }
+    } catch (error) {
+      this.handleError(res, error);
+    }
+  }
 }
 
 module.exports = BookingController;

@@ -11,6 +11,11 @@ class BookingRouter {
       this.bookingController.getAll(req, res);
     });
 
+    // Adjusted route for fetching bookings by user ID
+    this.router.get("/user", (req, res) => {
+      this.bookingController.getByUserId(req, res);
+    });
+
     // Get a booking by ID
     this.router.get("/:id", (req, res) => {
       this.bookingController.getById(req, res);

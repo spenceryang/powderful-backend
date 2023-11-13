@@ -9,7 +9,7 @@ class PropertyController extends BaseController {
   async getAll(req, res) {
     try {
       const records = await this.model.findAll({
-        include: this.propertyAssetModel
+        include: this.propertyAssetModel,
       });
       res.json(records);
     } catch (error) {
