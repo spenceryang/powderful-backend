@@ -70,11 +70,10 @@ class GuestController extends BaseController {
       if (!guest) {
         // If not, create a new guest
         guest = await this.model.create({ email, name, user_sub });
-        res.status(201).json(guest);
-      } else {
-        // If exists, return the existing guest data
-        res.json(guest);
       }
+
+      // Send back the internal user ID along with the guest data
+      res.json({ ...guest.toJSON(), internalUserId: guest.id });
     } catch (error) {
       this.handleError(res, error);
     }
