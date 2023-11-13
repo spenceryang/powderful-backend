@@ -59,6 +59,26 @@ class GuestController extends BaseController {
       this.handleError(res, error);
     }
   }
+
+  async checkOrCreate(req, res) {
+    try {
+      const { email, name, user_sub } = req.body;
+
+      // Check if a guest with the given user_sub or email already exists
+      let guest = await this.model.findOne({ where: { user_sub } });
+
+      if (!guest) {
+        // If not, create a new guest
+        guest = await this.model.create({ email, name, user_sub });
+        res.status(201).json(guest);
+      } else {
+        // If exists, return the existing guest data
+        res.json(guest);
+      }
+    } catch (error) {
+      this.handleError(res, error);
+    }
+  }
 }
 
 module.exports = GuestController;

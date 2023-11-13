@@ -34,6 +34,11 @@ class GuestRouter {
     this.router.delete("/:id", (req, res) => {
       this.guestController.delete(req, res);
     });
+
+    // Add a new route for check-or-create functionality
+    this.router.post("/check-or-create", (req, res) => {
+      this.guestController.checkOrCreate(req, res);
+    });
   }
 
   route() {
