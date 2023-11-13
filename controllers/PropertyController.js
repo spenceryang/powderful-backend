@@ -1,8 +1,20 @@
 const BaseController = require("./baseController");
 
 class PropertyController extends BaseController {
-  constructor(propertyModel) {
+  constructor(propertyModel, propertyAssetModel) {
     super(propertyModel);
+    this.propertyAssetModel = propertyAssetModel;
+  }
+
+  async getAll(req, res) {
+    try {
+      const records = await this.model.findAll({
+        include: this.propertyAssetModel,
+      });
+      res.json(records);
+    } catch (error) {
+      this.handleError(res, error);
+    }
   }
 
   async update(req, res) {
