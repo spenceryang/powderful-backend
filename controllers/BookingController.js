@@ -1,8 +1,10 @@
 const BaseController = require("./baseController");
 
 class BookingController extends BaseController {
-  constructor(bookingModel) {
+  constructor(bookingModel, propertyModel, propertyAssetModel) {
     super(bookingModel);
+    this.propertyModel = propertyModel;
+    this.propertyAssetModel = propertyAssetModel;
   }
 
   async update(req, res) {
@@ -45,6 +47,7 @@ class BookingController extends BaseController {
       const guestId = req.query.guest_id;
       const userBookings = await this.model.findAll({
         where: { guest_id: guestId },
+        include: [this.propertyModel, this.propertyAssetModel],
       });
 
       if (userBookings && userBookings.length > 0) {
