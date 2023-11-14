@@ -59,6 +59,26 @@ class BookingController extends BaseController {
       this.handleError(res, error);
     }
   }
+  async create(req, res) {
+    try {
+      const userSub = req.user.sub; // Extracted from JWT
+      const guest = await GuestModel.findOne({ where: { user_sub: userSub } });
+
+      if (!guest) {
+        return res.status(404).json({ message: "Guest not found" });
+      }
+
+      const bookingData = {
+        ...req.body,
+        guest_id: guest.id, // Use the ID from your guests table
+      };
+
+      const newBooking = await BookingModel.create(bookingData);
+      res.status(201).json(newBooking);
+    } catch (error) {
+      // Error handling
+    }
+  }
 }
 
 module.exports = BookingController;

@@ -49,15 +49,21 @@ class PropertyManagerController extends BaseController {
 
   async create(req, res) {
     try {
-      // Assuming the authenticated guest's ID is in req.user.id
-      const guestId = req.user.id;
+      // Extract user_sub from the JWT token
+      const userSub = req.user.sub; // Assuming this is where the JWT middleware puts it
+
+      // Find the corresponding guest
+      const guest = await GuestModel.findOne({ where: { user_sub: userSub } });
+      if (!guest) {
+        return res.status(404).json({ message: "Guest not found" });
+      }
 
       // Create a new property manager
       const newPropertyManager = await this.model.create(req.body);
 
       // Create an association in the guest_propertymanageradmin table
       await this.guestPropertyManagerAdminModel.create({
-        guest_id: guestId,
+        guest_id: guest.id, // Use the ID from the guests table
         propertymanager_id: newPropertyManager.id,
       });
 
