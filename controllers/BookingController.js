@@ -1,10 +1,11 @@
 const BaseController = require("./baseController");
 
 class BookingController extends BaseController {
-  constructor(bookingModel, propertyModel, propertyAssetModel) {
+  constructor(bookingModel, propertyModel, propertyAssetModel, guestModel) {
     super(bookingModel);
     this.propertyModel = propertyModel;
     this.propertyAssetModel = propertyAssetModel;
+    this.guestModel = guestModel;
   }
 
   async update(req, res) {
@@ -61,9 +62,10 @@ class BookingController extends BaseController {
   }
   async create(req, res) {
     try {
-      const userSub = req.user.sub;
-
-      const guest = await db.guest.findOne({ where: { user_sub: userSub } });
+      const userSub = req.body.user_sub;
+      const guest = await this.guestModel.findOne({
+        where: { user_sub: userSub },
+      });
 
       if (!guest) {
         return res.status(404).json({ message: "Guest not found" });

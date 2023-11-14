@@ -32,14 +32,20 @@ const guestController = new GuestController(guest);
 const PropertyManagerController = require("./controllers/PropertyManagerController.js");
 const propertyManagerController = new PropertyManagerController(
   propertymanager,
-  guest_propertymanageradmin
+  guest_propertymanageradmin,
+  guest
 );
 
 const PropertyController = require("./controllers/PropertyController.js");
 const propertyController = new PropertyController(property, property_assets);
 
 const BookingController = require("./controllers/BookingController.js");
-const bookingController = new BookingController(booking, property, property_assets);
+const bookingController = new BookingController(
+  booking,
+  property,
+  property_assets,
+  guest
+);
 
 const FavoriteController = require("./controllers/FavoriteController.js");
 const favoriteController = new FavoriteController(favorite);

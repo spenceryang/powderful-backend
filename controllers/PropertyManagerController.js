@@ -1,9 +1,14 @@
 const BaseController = require("./baseController");
 
 class PropertyManagerController extends BaseController {
-  constructor(propertyManagerModel, guestPropertyManagerAdminModel) {
+  constructor(
+    propertyManagerModel,
+    guestPropertyManagerAdminModel,
+    guestModel
+  ) {
     super(propertyManagerModel);
     this.guestPropertyManagerAdminModel = guestPropertyManagerAdminModel;
+    this.guestModel = guestModel;
   }
 
   async update(req, res) {
@@ -49,10 +54,14 @@ class PropertyManagerController extends BaseController {
 
   async create(req, res) {
     try {
-      const userSub = req.user.sub;
+      const userSub = req.body.user_sub;
 
       // Find the corresponding guest
-      const guest = await GuestModel.findOne({ where: { user_sub: userSub } });
+      const guest = await this.guestModel.findOne({
+        where: { user_sub: userSub },
+      });
+      console.log(guest);
+
       if (!guest) {
         return res.status(404).json({ message: "Guest not found" });
       }
