@@ -22,6 +22,7 @@ const {
   property_assets,
   property,
   propertymanager,
+  guest_propertymanageradmin,
 } = db;
 
 // import controllers
@@ -30,7 +31,8 @@ const guestController = new GuestController(guest);
 
 const PropertyManagerController = require("./controllers/PropertyManagerController.js");
 const propertyManagerController = new PropertyManagerController(
-  propertymanager
+  propertymanager,
+  guest_propertymanageradmin
 );
 
 const PropertyController = require("./controllers/PropertyController.js");
