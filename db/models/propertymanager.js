@@ -15,6 +15,11 @@ module.exports = (sequelize, DataTypes) => {
       propertymanager.hasMany(models.message, {
         foreignKey: "propertymanager_id",
       });
+      propertymanager.belongsToMany(models.guest, {
+        through: "guest_propertymanageradmin",
+        as: "guests",
+        foreignKey: "propertymanager_id",
+      });
     }
   }
   propertymanager.init(
