@@ -22,6 +22,7 @@ const {
   property_assets,
   property,
   propertymanager,
+  guest_propertymanageradmin,
 } = db;
 
 // import controllers
@@ -30,7 +31,8 @@ const guestController = new GuestController(guest);
 
 const PropertyManagerController = require("./controllers/PropertyManagerController.js");
 const propertyManagerController = new PropertyManagerController(
-  propertymanager
+  propertymanager,
+  guest_propertymanageradmin
 );
 
 const PropertyController = require("./controllers/PropertyController.js");
@@ -62,14 +64,15 @@ const guestRouter = new GuestRouter(guestController, express, jwtCheck);
 const PropertyManagerRouter = require("./routers/PropertyManagerRouter.js");
 const propertyManagerRouter = new PropertyManagerRouter(
   propertyManagerController,
-  express
+  express,
+  jwtCheck
 );
 
 const PropertyRouter = require("./routers/PropertyRouter.js");
 const propertyRouter = new PropertyRouter(propertyController, express);
 
 const BookingRouter = require("./routers/BookingRouter.js");
-const bookingRouter = new BookingRouter(bookingController, express);
+const bookingRouter = new BookingRouter(bookingController, express, jwtCheck);
 
 const FavoriteRouter = require("./routers/FavoriteRouter.js");
 const favoriteRouter = new FavoriteRouter(favoriteController, express);
