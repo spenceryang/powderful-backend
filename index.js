@@ -37,7 +37,7 @@ const PropertyController = require("./controllers/PropertyController.js");
 const propertyController = new PropertyController(property, property_assets);
 
 const BookingController = require("./controllers/BookingController.js");
-const bookingController = new BookingController(booking);
+const bookingController = new BookingController(booking, property, property_assets);
 
 const FavoriteController = require("./controllers/FavoriteController.js");
 const favoriteController = new FavoriteController(favorite);
