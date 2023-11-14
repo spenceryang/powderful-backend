@@ -61,8 +61,9 @@ class BookingController extends BaseController {
   }
   async create(req, res) {
     try {
-      const userSub = req.user.sub; // Extracted from JWT
-      const guest = await GuestModel.findOne({ where: { user_sub: userSub } });
+      const userSub = req.user.sub;
+
+      const guest = await db.guest.findOne({ where: { user_sub: userSub } });
 
       if (!guest) {
         return res.status(404).json({ message: "Guest not found" });
@@ -73,7 +74,7 @@ class BookingController extends BaseController {
         guest_id: guest.id, // Use the ID from your guests table
       };
 
-      const newBooking = await BookingModel.create(bookingData);
+      const newBooking = await this.model.create(bookingData);
       res.status(201).json(newBooking);
     } catch (error) {
       // Error handling

@@ -25,7 +25,7 @@ class BookingRouter {
     });
 
     // Create a new booking
-    this.router.post("/", (req, res) => {
+    this.router.post("/", this.jwtCheck, (req, res) => {
       this.bookingController.create(req, res);
     });
 

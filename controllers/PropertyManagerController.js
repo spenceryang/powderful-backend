@@ -49,8 +49,7 @@ class PropertyManagerController extends BaseController {
 
   async create(req, res) {
     try {
-      // Extract user_sub from the JWT token
-      const userSub = req.user.sub; // Assuming this is where the JWT middleware puts it
+      const userSub = req.user.sub;
 
       // Find the corresponding guest
       const guest = await GuestModel.findOne({ where: { user_sub: userSub } });
