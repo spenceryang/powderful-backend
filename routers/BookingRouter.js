@@ -1,12 +1,15 @@
 class BookingRouter {
-  constructor(bookingController, express) {
+  constructor(bookingController, express, jwtCheck) {
     this.bookingController = bookingController;
     this.router = express.Router();
+    this.jwtCheck = jwtCheck;
     this.setupRoutes();
   }
 
+  // Todo protect routes with jwtcheck
+
   setupRoutes() {
-    // Get all properties
+    // Get all bookings
     this.router.get("/", (req, res) => {
       this.bookingController.getAll(req, res);
     });

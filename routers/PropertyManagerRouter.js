@@ -1,7 +1,8 @@
 class PropertyManagerRouter {
-  constructor(propertyManagerController, express) {
+  constructor(propertyManagerController, express, jwtCheck) {
     this.propertyManagerController = propertyManagerController;
     this.router = express.Router();
+    this.jwtCheck = jwtCheck;
     this.setupRoutes();
   }
 
@@ -17,17 +18,17 @@ class PropertyManagerRouter {
     });
 
     // Create a new property manager
-    this.router.post("/", (req, res) => {
+    this.router.post("/", this.jwtCheck, (req, res) => {
       this.propertyManagerController.create(req, res);
     });
 
     // Update a property manager by ID
-    this.router.put("/:id", (req, res) => {
+    this.router.put("/:id", this.jwtCheck, (req, res) => {
       this.propertyManagerController.update(req, res);
     });
 
     // Delete a property manager by ID
-    this.router.delete("/:id", (req, res) => {
+    this.router.delete("/:id", this.jwtCheck, (req, res) => {
       this.propertyManagerController.delete(req, res);
     });
   }

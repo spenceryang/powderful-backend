@@ -64,14 +64,15 @@ const guestRouter = new GuestRouter(guestController, express, jwtCheck);
 const PropertyManagerRouter = require("./routers/PropertyManagerRouter.js");
 const propertyManagerRouter = new PropertyManagerRouter(
   propertyManagerController,
-  express
+  express,
+  jwtCheck
 );
 
 const PropertyRouter = require("./routers/PropertyRouter.js");
 const propertyRouter = new PropertyRouter(propertyController, express);
 
 const BookingRouter = require("./routers/BookingRouter.js");
-const bookingRouter = new BookingRouter(bookingController, express);
+const bookingRouter = new BookingRouter(bookingController, express, jwtCheck);
 
 const FavoriteRouter = require("./routers/FavoriteRouter.js");
 const favoriteRouter = new FavoriteRouter(favoriteController, express);
