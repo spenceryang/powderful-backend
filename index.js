@@ -37,7 +37,13 @@ const propertyManagerController = new PropertyManagerController(
 );
 
 const PropertyController = require("./controllers/PropertyController.js");
-const propertyController = new PropertyController(property, property_assets);
+const propertyController = new PropertyController(
+  property,
+  property_assets,
+  guest,
+  propertymanager,
+  guest_propertymanageradmin
+);
 
 const BookingController = require("./controllers/BookingController.js");
 const bookingController = new BookingController(
@@ -75,7 +81,11 @@ const propertyManagerRouter = new PropertyManagerRouter(
 );
 
 const PropertyRouter = require("./routers/PropertyRouter.js");
-const propertyRouter = new PropertyRouter(propertyController, express);
+const propertyRouter = new PropertyRouter(
+  propertyController,
+  express,
+  jwtCheck
+);
 
 const BookingRouter = require("./routers/BookingRouter.js");
 const bookingRouter = new BookingRouter(bookingController, express, jwtCheck);
