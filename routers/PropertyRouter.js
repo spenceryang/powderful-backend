@@ -1,7 +1,9 @@
 class PropertyRouter {
-  constructor(propertyController, express) {
+  constructor(propertyController, express, jwtCheck) {
     this.propertyController = propertyController;
     this.router = express.Router();
+    this.jwtCheck = jwtCheck;
+
     this.setupRoutes();
   }
 
@@ -12,12 +14,12 @@ class PropertyRouter {
     });
 
     // Get a property by ID
-    this.router.get("/:id", (req, res) => {
-      this.propertyController.getById(req, res);
+    this.router.get("/mine", (req, res) => {
+      this.propertyController.getPropertiesCreatedByCurrentUser(req, res);
     });
 
     // Create a new property
-    this.router.post("/", (req, res) => {
+    this.router.post("/", this.jwtCheck, (req, res) => {
       this.propertyController.create(req, res);
     });
 
