@@ -9,13 +9,13 @@ class PropertyRouter {
 
   setupRoutes() {
     // Get all properties
-    this.router.get("/", this.jwtCheck, (req, res) => {
-      this.propertyController.getPropertiesCreatedByCurrentUser(req, res);
+    this.router.get("/", (req, res) => {
+      this.propertyController.getAll(req, res);
     });
 
     // Get a property by ID
-    this.router.get("/:id", (req, res) => {
-      this.propertyController.getById(req, res);
+    this.router.get("/mine", (req, res) => {
+      this.propertyController.getPropertiesCreatedByCurrentUser(req, res);
     });
 
     // Create a new property
