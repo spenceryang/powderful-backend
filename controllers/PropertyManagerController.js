@@ -60,7 +60,6 @@ class PropertyManagerController extends BaseController {
       const guest = await this.guestModel.findOne({
         where: { user_sub: userSub },
       });
-      console.log(guest);
 
       if (!guest) {
         return res.status(404).json({ message: "Guest not found" });
@@ -68,7 +67,6 @@ class PropertyManagerController extends BaseController {
 
       // Create a new property manager
       const newPropertyManager = await this.model.create(req.body);
-
       // Create an association in the guest_propertymanageradmin table
       await this.guestPropertyManagerAdminModel.create({
         guest_id: guest.id, // Use the ID from the guests table
