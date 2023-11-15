@@ -26,6 +26,20 @@ class PropertyController extends BaseController {
     }
   }
 
+  async getById(req, res) {
+    try {
+      const record = await this.model.findByPk(req.params.id, {
+        include: this.propertyAssetModel,
+      });
+      if (!record) {
+        return res.status(404).json({ message: "Record not found" });
+      }
+      res.json(record);
+    } catch (error) {
+      this.handleError(res, error);
+    }
+  }
+
   async update(req, res) {
     try {
       const { id } = req.params;

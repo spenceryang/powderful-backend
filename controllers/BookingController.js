@@ -60,6 +60,7 @@ class BookingController extends BaseController {
       this.handleError(res, error);
     }
   }
+  
   async create(req, res) {
     try {
       const userSub = req.body.user_sub;
