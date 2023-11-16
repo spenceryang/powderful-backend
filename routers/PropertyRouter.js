@@ -18,6 +18,10 @@ class PropertyRouter {
       this.propertyController.getPropertiesCreatedByCurrentUser(req, res);
     });
 
+    this.router.get("/:id", (req, res) => {
+      this.propertyController.getById(req, res);
+    });
+
     // Create a new property
     this.router.post("/", this.jwtCheck, (req, res) => {
       this.propertyController.create(req, res);
