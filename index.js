@@ -22,6 +22,7 @@ const {
   property_assets,
   property,
   propertymanager,
+  guest_propertymanageradmin,
 } = db;
 
 // import controllers
@@ -30,14 +31,29 @@ const guestController = new GuestController(guest);
 
 const PropertyManagerController = require("./controllers/PropertyManagerController.js");
 const propertyManagerController = new PropertyManagerController(
-  propertymanager
+  propertymanager,
+  guest_propertymanageradmin,
+  guest
 );
 
 const PropertyController = require("./controllers/PropertyController.js");
-const propertyController = new PropertyController(property, property_assets);
+const propertyController = new PropertyController(
+  property,
+  property_assets,
+  guest,
+  propertymanager,
+  guest_propertymanageradmin
+);
 
 const BookingController = require("./controllers/BookingController.js");
-const bookingController = new BookingController(booking);
+const bookingController = new BookingController(
+  booking,
+  property,
+  property_assets,
+  guest,
+  guest_propertymanageradmin,
+  propertymanager
+);
 
 const FavoriteController = require("./controllers/FavoriteController.js");
 const favoriteController = new FavoriteController(favorite);
@@ -62,14 +78,19 @@ const guestRouter = new GuestRouter(guestController, express, jwtCheck);
 const PropertyManagerRouter = require("./routers/PropertyManagerRouter.js");
 const propertyManagerRouter = new PropertyManagerRouter(
   propertyManagerController,
-  express
+  express,
+  jwtCheck
 );
 
 const PropertyRouter = require("./routers/PropertyRouter.js");
-const propertyRouter = new PropertyRouter(propertyController, express);
+const propertyRouter = new PropertyRouter(
+  propertyController,
+  express,
+  jwtCheck
+);
 
 const BookingRouter = require("./routers/BookingRouter.js");
-const bookingRouter = new BookingRouter(bookingController, express);
+const bookingRouter = new BookingRouter(bookingController, express, jwtCheck);
 
 const FavoriteRouter = require("./routers/FavoriteRouter.js");
 const favoriteRouter = new FavoriteRouter(favoriteController, express);

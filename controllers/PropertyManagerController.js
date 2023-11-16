@@ -1,8 +1,14 @@
 const BaseController = require("./baseController");
 
 class PropertyManagerController extends BaseController {
-  constructor(propertyManagerModel) {
+  constructor(
+    propertyManagerModel,
+    guestPropertyManagerAdminModel,
+    guestModel
+  ) {
     super(propertyManagerModel);
+    this.guestPropertyManagerAdminModel = guestPropertyManagerAdminModel;
+    this.guestModel = guestModel;
   }
 
   async update(req, res) {
@@ -43,6 +49,33 @@ class PropertyManagerController extends BaseController {
         message: "Error deleting property manager",
         error: error.message,
       });
+    }
+  }
+
+  async create(req, res) {
+    try {
+      const userSub = req.body.user_sub;
+
+      // Find the corresponding guest
+      const guest = await this.guestModel.findOne({
+        where: { user_sub: userSub },
+      });
+
+      if (!guest) {
+        return res.status(404).json({ message: "Guest not found" });
+      }
+
+      // Create a new property manager
+      const newPropertyManager = await this.model.create(req.body);
+      // Create an association in the guest_propertymanageradmin table
+      await this.guestPropertyManagerAdminModel.create({
+        guest_id: guest.id, // Use the ID from the guests table
+        propertymanager_id: newPropertyManager.id,
+      });
+
+      res.status(201).json(newPropertyManager);
+    } catch (error) {
+      this.handleError(res, error);
     }
   }
 }

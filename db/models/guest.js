@@ -12,6 +12,11 @@ module.exports = (sequelize, DataTypes) => {
       guest.hasMany(models.favorite, { foreignKey: "guest_id" });
       guest.hasMany(models.booking, { foreignKey: "guest_id" });
       guest.hasMany(models.message, { foreignKey: "guest_id" });
+      guest.belongsToMany(models.propertymanager, {
+        through: "guest_propertymanageradmin",
+        as: "propertymanagers",
+        foreignKey: "guest_id",
+      });
     }
   }
   guest.init(
