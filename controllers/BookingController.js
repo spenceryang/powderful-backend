@@ -1,11 +1,18 @@
 const BaseController = require("./baseController");
 
 class BookingController extends BaseController {
-  constructor(bookingModel, propertyModel, propertyAssetModel, guestModel) {
+  constructor(
+    bookingModel,
+    propertyModel,
+    propertyAssetModel,
+    guestModel,
+    guestPropertyManagerAdminModel
+  ) {
     super(bookingModel);
     this.propertyModel = propertyModel;
     this.propertyAssetModel = propertyAssetModel;
     this.guestModel = guestModel;
+    this.guestPropertyManagerAdminModel = guestPropertyManagerAdminModel;
   }
 
   async update(req, res) {
@@ -60,7 +67,60 @@ class BookingController extends BaseController {
       this.handleError(res, error);
     }
   }
-  
+
+  async getByPropertyManager(req, res) {
+    try {
+      const userSub = req.query.user_sub;
+      const guest = await this.guestModel.findOne({
+        where: { user_sub: userSub },
+      });
+
+      if (!guest) {
+        return res.status(404).json({ message: "Guest not found" });
+      }
+      // Find the corresponding PropertyManagerAdmin using guest's ID
+      const guestPropertyManagerAdmin =
+        await this.guestPropertyManagerAdminModel.findOne({
+          where: { guest_id: guest.id },
+        });
+
+      if (!guestPropertyManagerAdmin) {
+        return res
+          .status(404)
+          .json({ message: "Property Manager Admin not found" });
+      }
+      // Extract the propertymanager_id from propertyManagerAdmin
+      const propertyManagerId = guestPropertyManagerAdmin.propertymanager_id;
+
+      // Fetch all properties created by the property manager
+      const properties = await this.propertyModel.findAll({
+        where: { propertymanager_id: propertyManagerId },
+      });
+
+      if (!properties || properties.length === 0) {
+        return res.status(404).json({ message: "No properties found" });
+      }
+
+      // Extract the property_id's from properties
+      const propertyIds = properties.map((property) => property.id);
+
+      // Fetch all bookings created for these properties
+      const propertyBookings = await this.model.findAll({
+        where: { property_id: propertyIds }, // Adjust this line to use the array of IDs
+      });
+
+      if (propertyBookings && propertyBookings.length > 0) {
+        res.json(propertyBookings);
+      } else {
+        res
+          .status(404)
+          .json({ message: "No bookings found for this property manager" });
+      }
+    } catch (error) {
+      this.handleError(res, error);
+    }
+  }
+
   async create(req, res) {
     try {
       const userSub = req.body.user_sub;

@@ -19,6 +19,11 @@ class BookingRouter {
       this.bookingController.getByUserId(req, res);
     });
 
+    // Get bookings for a property manager
+    this.router.get("/mine", this.jwtCheck, (req, res) => {
+      this.bookingController.getByPropertyManager(req, res);
+    });
+
     // Get a booking by ID
     this.router.get("/:id", (req, res) => {
       this.bookingController.getById(req, res);

@@ -50,7 +50,9 @@ const bookingController = new BookingController(
   booking,
   property,
   property_assets,
-  guest
+  guest,
+  guest_propertymanageradmin,
+  propertymanager
 );
 
 const FavoriteController = require("./controllers/FavoriteController.js");
