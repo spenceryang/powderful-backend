@@ -1,6 +1,6 @@
 const Stripe = require("stripe");
 const stripe = Stripe(
-  "sk_test_51N7HdDEKnKGUDkS9K806Mv6EnmayrEshuGxH93xUDRmBir63o8GlnOW9GahfycFXlx3rOICAfkBaIRyoNjfmo66500H0C1ibSD"
+  "sk_test_51ODGWPAJDjTgvIdvKjARqzzsmg1fVyHeC30G3tUUj4HislfJuBQXTqOAfbbSOZM4DPTA9Ovkn0YG4fqKviwwXTqc00SPYU8aII"
 );
 
 const express = require("express");
@@ -70,7 +70,7 @@ const MessageController = require("./controllers/MessageController.js");
 const messageController = new MessageController(message);
 
 const PaymentController = require("./controllers/PaymentController.js");
-const paymentController = new PaymentController(payment, stripe);
+const paymentController = new PaymentController(payment, stripe, booking);
 
 const PropertyAssetController = require("./controllers/PropertyAssetController.js");
 const propertyAssetController = new PropertyAssetController(property_assets);

@@ -1,9 +1,10 @@
 const BaseController = require("./baseController");
 
 class PaymentController extends BaseController {
-  constructor(paymentModel, stripe) {
+  constructor(paymentModel, stripe, bookingModel) {
     super(paymentModel);
     this.stripe = stripe;
+    this.bookingModel = bookingModel;
   }
 
   async update(req, res) {
@@ -76,10 +77,9 @@ class PaymentController extends BaseController {
     try {
       const { sessionId } = req.body; // Retrieve session_id from the request body
       const session = await this.stripe.checkout.sessions.retrieve(sessionId);
-
       const bookingId = session.metadata.bookingId; // Extract bookingId from metadata
 
-      const updatedBooking = await this.model.update(
+      const updatedBooking = await this.bookingModel.update(
         { payment_status: "paid" },
         { where: { id: bookingId } }
       );
@@ -87,7 +87,7 @@ class PaymentController extends BaseController {
       if (updatedBooking) {
         res
           .status(200)
-          .json({ message: "Booking payment updated successfully" });
+          .json({ message: "Booking payment status updated successfully" });
       } else {
         res.status(404).json({ message: "Booking not found" });
       }
