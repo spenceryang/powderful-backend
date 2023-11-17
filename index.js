@@ -107,7 +107,8 @@ const paymentRouter = new PaymentRouter(paymentController, express);
 const PropertyAssetRouter = require("./routers/PropertyAssetRouter.js");
 const propertyAssetRouter = new PropertyAssetRouter(
   propertyAssetController,
-  express
+  express,
+  jwtCheck
 );
 
 // Setting up middleware
