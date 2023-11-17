@@ -1,7 +1,8 @@
 class PropertyAssetRouter {
-  constructor(propertyAssetController, express) {
+  constructor(propertyAssetController, express, jwtCheck) {
     this.propertyAssetController = propertyAssetController;
     this.router = express.Router();
+    this.jwtCheck = jwtCheck;
     this.setupRoutes();
   }
 
@@ -17,7 +18,7 @@ class PropertyAssetRouter {
     });
 
     // Create a new propertyAsset
-    this.router.post("/", (req, res) => {
+    this.router.post("/", this.jwtCheck, (req, res) => {
       this.propertyAssetController.create(req, res);
     });
 
