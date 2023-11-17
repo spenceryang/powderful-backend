@@ -30,6 +30,14 @@ class PaymentRouter {
     this.router.delete("/:id", (req, res) => {
       this.paymentController.delete(req, res);
     });
+
+    this.router.post("/create-checkout-session", (req, res) => {
+      this.paymentController.createCheckoutSession(req, res);
+    });
+
+    this.router.post("/handle-payment-success", (req, res) => {
+      this.paymentController.handlePaymentSuccess(req, res);
+    });
   }
 
   route() {
