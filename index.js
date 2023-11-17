@@ -107,7 +107,7 @@ const MessageRouter = require("./routers/MessageRouter.js");
 const messageRouter = new MessageRouter(messageController, express);
 
 const PaymentRouter = require("./routers/PaymentRouter.js");
-const paymentRouter = new PaymentRouter(paymentController, express);
+const paymentRouter = new PaymentRouter(paymentController, express, jwtCheck);
 
 const PropertyAssetRouter = require("./routers/PropertyAssetRouter.js");
 const propertyAssetRouter = new PropertyAssetRouter(

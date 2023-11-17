@@ -75,21 +75,30 @@ class PaymentController extends BaseController {
 
   async handlePaymentSuccess(req, res) {
     try {
-      const { sessionId } = req.body; // Retrieve session_id from the request body
+      const { sessionId, bookingId } = req.body;
       const session = await this.stripe.checkout.sessions.retrieve(sessionId);
-      const bookingId = session.metadata.bookingId; // Extract bookingId from metadata
 
-      const updatedBooking = await this.bookingModel.update(
-        { payment_status: "paid" },
-        { where: { id: bookingId } }
-      );
+      // Check if the bookingId matches with the one stored in Stripe metadata
+      if (session.metadata.bookingId === bookingId) {
+        const updatedBooking = await this.bookingModel.update(
+          { payment_status: "paid" },
+          { where: { id: bookingId } }
+        );
 
-      if (updatedBooking) {
-        res
-          .status(200)
-          .json({ message: "Booking payment status updated successfully" });
+        // Check if the booking update was successful
+        if (updatedBooking) {
+          res
+            .status(200)
+            .json({ message: "Booking payment status updated successfully" });
+        } else {
+          // Handle case where booking update was not successful
+          res
+            .status(404)
+            .json({ message: "Booking not found or update failed" });
+        }
       } else {
-        res.status(404).json({ message: "Booking not found" });
+        // Handle case where bookingId does not match
+        res.status(400).json({ message: "Invalid booking ID" });
       }
     } catch (error) {
       // Error handling

@@ -1,8 +1,9 @@
 class PaymentRouter {
-  constructor(paymentController, express) {
+  constructor(paymentController, express, jwtCheck) {
     this.paymentController = paymentController;
     this.router = express.Router();
     this.setupRoutes();
+    this.jwtCheck = jwtCheck;
   }
 
   setupRoutes() {
