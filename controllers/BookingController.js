@@ -159,6 +159,7 @@ class BookingController extends BaseController {
       // Fetch all bookings created for these properties
       const propertyBookings = await this.model.findAll({
         where: { property_id: propertyIds }, // Adjust this line to use the array of IDs
+        include: [this.guestModel, this.propertyModel]
       });
 
       if (propertyBookings && propertyBookings.length > 0) {
