@@ -1,8 +1,9 @@
 class PaymentRouter {
-  constructor(paymentController, express) {
+  constructor(paymentController, express, jwtCheck) {
     this.paymentController = paymentController;
     this.router = express.Router();
     this.setupRoutes();
+    this.jwtCheck = jwtCheck;
   }
 
   setupRoutes() {
@@ -29,6 +30,16 @@ class PaymentRouter {
     // Delete a payment by ID
     this.router.delete("/:id", (req, res) => {
       this.paymentController.delete(req, res);
+    });
+
+    // Create a checkout via Stripe
+    this.router.post("/create-checkout-session", (req, res) => {
+      this.paymentController.createCheckoutSession(req, res);
+    });
+
+    // Handle payment success or failure
+    this.router.post("/handle-payment-success", (req, res) => {
+      this.paymentController.handlePaymentSuccess(req, res);
     });
   }
 

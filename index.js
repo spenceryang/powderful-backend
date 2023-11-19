@@ -1,3 +1,8 @@
+const Stripe = require("stripe");
+const stripe = Stripe(
+  "sk_test_51ODGWPAJDjTgvIdvKjARqzzsmg1fVyHeC30G3tUUj4HislfJuBQXTqOAfbbSOZM4DPTA9Ovkn0YG4fqKviwwXTqc00SPYU8aII"
+);
+
 const express = require("express");
 const cors = require("cors");
 const pg = require("pg");
@@ -65,7 +70,7 @@ const MessageController = require("./controllers/MessageController.js");
 const messageController = new MessageController(message);
 
 const PaymentController = require("./controllers/PaymentController.js");
-const paymentController = new PaymentController(payment);
+const paymentController = new PaymentController(payment, stripe, booking);
 
 const PropertyAssetController = require("./controllers/PropertyAssetController.js");
 const propertyAssetController = new PropertyAssetController(property_assets);
@@ -102,12 +107,13 @@ const MessageRouter = require("./routers/MessageRouter.js");
 const messageRouter = new MessageRouter(messageController, express);
 
 const PaymentRouter = require("./routers/PaymentRouter.js");
-const paymentRouter = new PaymentRouter(paymentController, express);
+const paymentRouter = new PaymentRouter(paymentController, express, jwtCheck);
 
 const PropertyAssetRouter = require("./routers/PropertyAssetRouter.js");
 const propertyAssetRouter = new PropertyAssetRouter(
   propertyAssetController,
-  express
+  express,
+  jwtCheck
 );
 
 // Setting up middleware

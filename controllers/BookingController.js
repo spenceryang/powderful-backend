@@ -18,6 +18,58 @@ class BookingController extends BaseController {
   async update(req, res) {
     try {
       const { id } = req.params;
+      const userSub = req.query.user_sub;
+
+      // Authenticate and get the guest
+      const guest = await this.guestModel.findOne({
+        where: { user_sub: userSub },
+      });
+
+      if (!guest) {
+        return res.status(404).json({ message: "Guest not found" });
+      }
+
+      // Verify if the guest is a property manager admin
+      const guestPropertyManagerAdmin =
+        await this.guestPropertyManagerAdminModel.findOne({
+          where: { guest_id: guest.id },
+        });
+
+      if (!guestPropertyManagerAdmin) {
+        return res
+          .status(404)
+          .json({ message: "Property Manager Admin not found" });
+      }
+
+      const propertyManagerId = guestPropertyManagerAdmin.propertymanager_id;
+
+      // Fetch all properties managed by the property manager
+      const properties = await this.propertyModel.findAll({
+        where: { propertymanager_id: propertyManagerId },
+      });
+
+      if (!properties || properties.length === 0) {
+        return res.status(404).json({ message: "No properties found" });
+      }
+
+      // Extract the property_id's from the properties
+      const propertyIds = properties.map((property) => property.id);
+
+      // Find the booking to be updated
+      const bookingToUpdate = await this.model.findByPk(id);
+
+      if (!bookingToUpdate) {
+        return res.status(404).json({ message: "Booking not found" });
+      }
+
+      // Check if the booking is for a property managed by the property manager
+      if (!propertyIds.includes(bookingToUpdate.property_id)) {
+        return res
+          .status(403)
+          .json({ message: "Unauthorized to update this booking" });
+      }
+
+      // Proceed with the update
       const [updated] = await this.model.update(req.body, {
         where: { id: id },
       });
@@ -107,6 +159,7 @@ class BookingController extends BaseController {
       // Fetch all bookings created for these properties
       const propertyBookings = await this.model.findAll({
         where: { property_id: propertyIds }, // Adjust this line to use the array of IDs
+        include: [this.guestModel, this.propertyModel]
       });
 
       if (propertyBookings && propertyBookings.length > 0) {
