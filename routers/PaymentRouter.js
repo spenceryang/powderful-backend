@@ -32,10 +32,12 @@ class PaymentRouter {
       this.paymentController.delete(req, res);
     });
 
+    // Create a checkout via Stripe
     this.router.post("/create-checkout-session", (req, res) => {
       this.paymentController.createCheckoutSession(req, res);
     });
 
+    // Handle payment success or failure
     this.router.post("/handle-payment-success", (req, res) => {
       this.paymentController.handlePaymentSuccess(req, res);
     });

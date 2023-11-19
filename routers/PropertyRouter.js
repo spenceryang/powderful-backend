@@ -13,11 +13,12 @@ class PropertyRouter {
       this.propertyController.getAll(req, res);
     });
 
-    // Get a property by ID
+    // Get a property that's mine
     this.router.get("/mine", (req, res) => {
       this.propertyController.getPropertiesCreatedByCurrentUser(req, res);
     });
 
+    // Get a property by ID
     this.router.get("/:id", (req, res) => {
       this.propertyController.getById(req, res);
     });
