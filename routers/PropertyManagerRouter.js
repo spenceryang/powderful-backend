@@ -13,6 +13,11 @@ class PropertyManagerRouter {
     });
 
     // Get a property manager by ID
+    this.router.get("/mine", (req, res) => {
+      this.propertyManagerController.getIdThroughGuest(req, res);
+    });
+
+    // Get a property manager by ID
     this.router.get("/:id", (req, res) => {
       this.propertyManagerController.getById(req, res);
     });

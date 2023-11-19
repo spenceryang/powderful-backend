@@ -107,7 +107,11 @@ class BookingController extends BaseController {
       const guestId = req.query.guest_id;
       const userBookings = await this.model.findAll({
         where: { guest_id: guestId },
-        include: [this.propertyModel, this.propertyAssetModel],
+        include: [{
+          model: this.propertyModel, 
+          include: [this.propertyAssetModel],
+        }],
+        order: [['created_at', 'DESC']],
       });
 
       if (userBookings && userBookings.length > 0) {
@@ -159,7 +163,8 @@ class BookingController extends BaseController {
       // Fetch all bookings created for these properties
       const propertyBookings = await this.model.findAll({
         where: { property_id: propertyIds }, // Adjust this line to use the array of IDs
-        include: [this.guestModel, this.propertyModel]
+        include: [this.guestModel, this.propertyModel],
+        order: [['start_date', 'ASC']],
       });
 
       if (propertyBookings && propertyBookings.length > 0) {

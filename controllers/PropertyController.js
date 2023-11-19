@@ -146,7 +146,8 @@ class PropertyController extends BaseController {
       // Fetch all properties created by the property manager
       const properties = await this.model.findAll({
         where: { propertymanager_id: propertyManagerId },
-        include: this.propertyAssetModel
+        include: this.propertyAssetModel,
+        order: [['created_at', 'DESC']],
       });
 
       if (!properties || properties.length === 0) {

@@ -78,6 +78,34 @@ class PropertyManagerController extends BaseController {
       this.handleError(res, error);
     }
   }
+
+  async getIdThroughGuest(req, res) {
+    try {
+      const userSub = req.query.user_sub;
+      const guest = await this.guestModel.findOne({
+        where: { user_sub: userSub },
+      });
+
+      if (!guest) {
+        return res.status(404).json({ message: "Guest not found" });
+      }
+      // Find the corresponding PropertyManagerAdmin using guest's ID
+      const guestPropertyManagerAdmin =
+        await this.guestPropertyManagerAdminModel.findOne({
+          where: { guest_id: guest.id },
+        });
+
+      if (!guestPropertyManagerAdmin) {
+        return res
+          .status(404)
+          .json({ message: "Property Manager Admin not found" });
+      } else {
+        res.json(guestPropertyManagerAdmin);
+      }
+    } catch (error) {
+      this.handleError(res, error);
+    }
+  }
 }
 
 module.exports = PropertyManagerController;
