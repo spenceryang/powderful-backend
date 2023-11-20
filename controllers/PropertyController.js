@@ -19,7 +19,6 @@ class PropertyController extends BaseController {
     try {
       const records = await this.model.findAll({
         include: this.propertyAssetModel,
-        order: [["created_at", "DESC"]],
       });
       res.json(records);
     } catch (error) {
