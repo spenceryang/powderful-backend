@@ -19,6 +19,7 @@ class PropertyController extends BaseController {
     try {
       const records = await this.model.findAll({
         include: this.propertyAssetModel,
+        order: [["created_at", "DESC"]],
       });
       res.json(records);
     } catch (error) {
@@ -147,7 +148,7 @@ class PropertyController extends BaseController {
       const properties = await this.model.findAll({
         where: { propertymanager_id: propertyManagerId },
         include: this.propertyAssetModel,
-        order: [['created_at', 'DESC']],
+        order: [["created_at", "DESC"]],
       });
 
       if (!properties || properties.length === 0) {
