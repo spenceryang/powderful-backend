@@ -8,39 +8,27 @@ module.exports = {
         // Assets for Niseko Powder Haven
         {
           property_id: 1,
-          file_link: "images/properties/niseko-powder-haven-1.jpg",
+          file_link:
+            "https://images.pexels.com/photos/3717517/pexels-photo-3717517.jpeg",
           created_at: new Date(),
           updated_at: new Date(),
         },
-        {
-          property_id: 1,
-          file_link: "images/properties/niseko-powder-haven-2.jpg",
-          created_at: new Date(),
-          updated_at: new Date(),
-        },
+
         // Assets for The Alpine Escape
         {
           property_id: 2,
-          file_link: "images/properties/alpine-escape-1.jpg",
+          file_link:
+            "https://images.pexels.com/photos/2119714/pexels-photo-2119714.jpeg",
           created_at: new Date(),
           updated_at: new Date(),
         },
-        {
-          property_id: 2,
-          file_link: "images/properties/alpine-escape-2.jpg",
-          created_at: new Date(),
-          updated_at: new Date(),
-        },
+
         // Assets for Snowboarder’s Retreat
+
         {
           property_id: 3,
-          file_link: "images/properties/snowboarders-retreat-1.jpg",
-          created_at: new Date(),
-          updated_at: new Date(),
-        },
-        {
-          property_id: 3,
-          file_link: "images/properties/snowboarders-retreat-2.jpg",
+          file_link:
+            "https://images.pexels.com/photos/7031407/pexels-photo-7031407.jpeg",
           created_at: new Date(),
           updated_at: new Date(),
         },
